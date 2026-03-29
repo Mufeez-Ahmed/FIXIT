@@ -1,17 +1,17 @@
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
 
 const styles = {
   nav: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: "15px 40px",
-    backgroundColor: "var(--nav-bg)", // Variable
+    padding: "15px 5%", // Changed to percentage for better scaling
+    backgroundColor: "var(--nav-bg)",
     backdropFilter: "blur(15px)",
-    color: "var(--text-main)", // Variable
+    color: "var(--text-main)",
     boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
-    borderBottom: "1px solid var(--border-color)", // Variable
+    borderBottom: "1px solid var(--border-color)",
     position: "sticky",
     top: 0,
     zIndex: 1000,
@@ -21,9 +21,10 @@ const styles = {
     fontSize: "24px",
     fontWeight: "900",
     textDecoration: "none",
-    color: "var(--accent)", // Variable
+    color: "var(--accent)",
     textTransform: "uppercase",
     letterSpacing: "1.5px",
+    zIndex: 1001, // Stay above mobile menu
   },
   linkList: {
     display: "flex",
@@ -31,6 +32,7 @@ const styles = {
     listStyle: "none",
     margin: 0,
     padding: 0,
+    transition: "all 0.4s ease-in-out",
   },
   listItem: {
     marginLeft: "25px",
@@ -39,14 +41,14 @@ const styles = {
   },
   link: {
     textDecoration: "none",
-    color: "var(--text-muted)", // Variable
+    color: "var(--text-muted)",
     fontSize: "15px",
     fontWeight: "600",
     transition: "all 0.3s ease",
   },
   adminBtn: {
     textDecoration: "none",
-    backgroundColor: "var(--accent)", // Variable
+    backgroundColor: "var(--accent)",
     color: "#fff",
     padding: "8px 20px",
     borderRadius: "8px",
@@ -80,32 +82,86 @@ const styles = {
     justifyContent: "center",
     fontSize: "18px",
     marginLeft: "20px",
-    transition: "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+    transition: "all 0.3s ease",
+  },
+  // Added Hamburger Style
+  hamburger: {
+    display: "none", // Hidden by default (desktop)
+    flexDirection: "column",
+    cursor: "pointer",
+    gap: "5px",
+    zIndex: 1001,
+  },
+  line: {
+    width: "25px",
+    height: "3px",
+    backgroundColor: "var(--accent)",
+    borderRadius: "5px",
+    transition: "all 0.3s ease",
   }
 };
 
 export default function Navbar({ toggleTheme, currentTheme }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false); // Mobile Menu State
 
   const isAdminPage = location.pathname === "/Admin";
 
   const handleLogout = () => {
     alert("Logged out successfully!");
     navigate("/Login");
+    setIsOpen(false);
   };
 
   return (
     <nav style={styles.nav}>
+      <style>
+        {`
+          @media (max-width: 992px) {
+            .nav-links {
+              position: fixed;
+              right: ${isOpen ? "0" : "-100%"};
+              top: 0;
+              height: 100vh;
+              width: 70%;
+              background-color: var(--nav-bg);
+              flex-direction: column !important;
+              justify-content: center !important;
+              box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+              backdrop-filter: blur(20px);
+            }
+            .nav-item {
+              margin: 20px 0 !important;
+            }
+            .hamburger-icon {
+              display: flex !important;
+            }
+          }
+        `}
+      </style>
+
       {/* Brand Identity */}
-      <Link to="/" style={styles.siteTitle}>
+      <Link to="/" style={styles.siteTitle} onClick={() => setIsOpen(false)}>
         <span style={{ color: "var(--text-main)" }}>FIX</span>IT.
       </Link>
+
+      {/* Hamburger Icon */}
+      <div 
+        className="hamburger-icon" 
+        style={styles.hamburger} 
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <div style={{...styles.line, transform: isOpen ? "rotate(45deg) translate(5px, 6px)" : "none"}}></div>
+        <div style={{...styles.line, opacity: isOpen ? 0 : 1}}></div>
+        <div style={{...styles.line, transform: isOpen ? "rotate(-45deg) translate(5px, -6px)" : "none"}}></div>
+      </div>
       
-      <ul style={styles.linkList}>
-        <li style={styles.listItem}>
+      <ul className="nav-links" style={styles.linkList}>
+        <li className="nav-item" style={styles.listItem}>
           <NavLink 
             to="/" 
+            onClick={() => setIsOpen(false)}
             style={({ isActive }) => ({
               ...styles.link,
               color: isActive ? "var(--accent)" : "var(--text-muted)"
@@ -115,9 +171,10 @@ export default function Navbar({ toggleTheme, currentTheme }) {
           </NavLink>
         </li>
         
-        <li style={styles.listItem}>
+        <li className="nav-item" style={styles.listItem}>
           <NavLink 
             to="/complaint" 
+            onClick={() => setIsOpen(false)}
             style={({ isActive }) => ({
               ...styles.link,
               color: isActive ? "var(--accent)" : "var(--text-muted)"
@@ -127,21 +184,22 @@ export default function Navbar({ toggleTheme, currentTheme }) {
           </NavLink>
         </li>
 
-        <li style={styles.listItem}>
-          <NavLink to="/track" style={({ isActive }) => ({ ...styles.link, color: isActive ? "var(--accent)" : "var(--text-muted)" })}>
+        <li className="nav-item" style={styles.listItem}>
+          <NavLink to="/track" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ ...styles.link, color: isActive ? "var(--accent)" : "var(--text-muted)" })}>
             Track Ticket
           </NavLink>
         </li>
 
-        <li style={styles.listItem}>
-          <NavLink to="/StayAware" style={({ isActive }) => ({ ...styles.link, color: isActive ? "var(--accent)" : "var(--text-muted)" })}>
+        <li className="nav-item" style={styles.listItem}>
+          <NavLink to="/StayAware" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ ...styles.link, color: isActive ? "var(--accent)" : "var(--text-muted)" })}>
             Guidelines
           </NavLink>
         </li>
 
-        <li style={styles.listItem}>
+        <li className="nav-item" style={styles.listItem}>
           <NavLink 
             to="/about" 
+            onClick={() => setIsOpen(false)}
             style={({ isActive }) => ({
               ...styles.link,
               color: isActive ? "var(--accent)" : "var(--text-muted)"
@@ -151,41 +209,29 @@ export default function Navbar({ toggleTheme, currentTheme }) {
           </NavLink>
         </li>
 
-        <li style={styles.listItem}>
+        <li className="nav-item" style={styles.listItem}>
           {isAdminPage ? (
             <button 
               onClick={handleLogout} 
               style={styles.logoutBtn}
-              onMouseOver={(e) => e.target.style.backgroundColor = "#c0392b"}
-              onMouseOut={(e) => e.target.style.backgroundColor = "#e74c3c"}
             >
               Logout
             </button>
           ) : (
             <NavLink 
               to="/Login" 
+              onClick={() => setIsOpen(false)}
               style={styles.adminBtn}
-              onMouseOver={(e) => e.target.style.opacity = "0.8"}
-              onMouseOut={(e) => e.target.style.opacity = "1"}
             >
               Admin
             </NavLink>
           )}
         </li>
 
-        {/* STEP 2: THEME TOGGLE BUTTON */}
-        <li style={styles.listItem}>
+        <li className="nav-item" style={styles.listItem}>
           <button 
             onClick={toggleTheme} 
             style={styles.toggleBtn}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = "scale(1.1) rotate(15deg)";
-              e.currentTarget.style.borderColor = "var(--accent)";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = "scale(1) rotate(0deg)";
-              e.currentTarget.style.borderColor = "var(--border-color)";
-            }}
           >
             <i className={currentTheme === 'light' ? "fas fa-moon" : "fas fa-sun"}></i>
           </button>
