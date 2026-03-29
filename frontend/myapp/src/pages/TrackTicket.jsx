@@ -63,7 +63,7 @@ function TrackTicket() {
         if (!ticketId) return;
         try {
             setError('');
-            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/complaints/${ticketId}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/complaints/${ticketId}`);
             setComplaint(response.data);
         } catch (err) {
             setComplaint(null);

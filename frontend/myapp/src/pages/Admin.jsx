@@ -82,7 +82,7 @@ function Admin() {
     // 1. Fetch all complaints from Backend
     const fetchComplaints = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/complaints/all`);
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/complaints/all`);
             setComplaints(response.data);
             calculateStats(response.data);
         } catch (error) {
@@ -98,7 +98,7 @@ function Admin() {
     const updateStatusOnServer = async (id, newStatus) => {
         try {
             // This sends { "status": "accepted" } to match the Backend Map
-            await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/complaints/update-status/${id}`, {
+            await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/complaints/update-status/${id}`, {
                 status: newStatus
             });
             
@@ -151,7 +151,8 @@ function Admin() {
                             <p style={styles.complaintType}>{c.type || "General Inquiry"}</p>
                             <p style={styles.detailText}><strong>Citizen:</strong> {c.name}</p>
                             <p style={styles.detailText}><strong>Location:</strong> {c.address}</p>
-                            <p style={styles.detailText}><strong>Description:</strong> {c.description}</p>
+                            <p style={styles.detailText}><strong>District:</strong> {c.zone}</p>
+                            <p style={styles.detailText}><strong>Phone:</strong> {c.phone}</p>
                             
                             {/* Show buttons only if status is pending */}
                             {(c.status?.toLowerCase() !== 'accepted' && c.status?.toLowerCase() !== 'rejected') && (
