@@ -6,23 +6,25 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 const styles = {
   container: { 
     maxWidth: '700px', 
-    margin: '40px auto', 
-    padding: '40px', 
-    backgroundColor: 'var(--card-bg)', // Variable
+    margin: 'clamp(20px, 5vw, 40px) auto', 
+    padding: 'clamp(20px, 5vw, 40px)', 
+    backgroundColor: 'var(--card-bg)', 
     borderRadius: '16px', 
     boxShadow: '0 15px 35px rgba(0, 0, 0, 0.1)', 
-    border: '1px solid var(--border-color)', // Variable
-    transition: 'all 0.4s ease' 
+    border: '1px solid var(--border-color)', 
+    transition: 'all 0.4s ease',
+    width: '90%',
+    boxSizing: 'border-box'
   },
-  header: { textAlign: 'center', color: 'var(--accent)', marginBottom: '10px', fontSize: '28px', fontWeight: '800' },
-  subHeader: { textAlign: 'center', color: 'var(--text-muted)', marginBottom: '30px', fontSize: '15px' },
+  header: { textAlign: 'center', color: 'var(--accent)', marginBottom: '10px', fontSize: 'clamp(22px, 5vw, 28px)', fontWeight: '800' },
+  subHeader: { textAlign: 'center', color: 'var(--text-muted)', marginBottom: '30px', fontSize: '14px' },
   formGroup: { marginBottom: '25px', position: 'relative' },
   label: { 
     display: 'block', 
     marginBottom: '8px', 
     fontSize: '12px', 
     fontWeight: '700', 
-    color: 'var(--text-main)', // Variable
+    color: 'var(--text-main)', 
     textTransform: 'uppercase', 
     letterSpacing: '0.5px' 
   },
@@ -31,12 +33,21 @@ const styles = {
     padding: '14px', 
     fontSize: '16px', 
     borderRadius: '8px', 
-    border: '2px solid var(--border-color)', // Variable
+    border: '2px solid var(--border-color)', 
     boxSizing: 'border-box', 
     outline: 'none', 
     transition: 'all 0.3s ease', 
-    backgroundColor: 'var(--bg-primary)', // Variable
-    color: 'var(--text-main)' // Variable
+    backgroundColor: 'var(--bg-primary)', 
+    color: 'var(--text-main)' 
+  },
+  row: {
+    display: 'flex',
+    gap: '15px',
+    flexWrap: 'wrap' // This ensures columns stack on mobile
+  },
+  column: {
+    flex: '1 1 280px', // Shrinks/grows, but breaks at 280px width
+    minWidth: '280px'
   },
   button: { 
     width: '100%', 
@@ -45,7 +56,7 @@ const styles = {
     fontWeight: 'bold', 
     borderRadius: '8px', 
     border: 'none', 
-    backgroundColor: 'var(--accent)', // Variable
+    backgroundColor: 'var(--accent)', 
     color: '#fff', 
     cursor: 'pointer', 
     marginTop: '20px', 
@@ -63,14 +74,17 @@ const styles = {
     justifyContent: 'center', 
     alignItems: 'center', 
     zIndex: 2000, 
-    backdropFilter: 'blur(8px)' 
+    padding: '20px',
+    backdropFilter: 'blur(8px)',
+    boxSizing: 'border-box'
   },
   modalContent: { 
-    backgroundColor: 'var(--card-bg)', // Variable
-    padding: '40px', 
+    backgroundColor: 'var(--card-bg)', 
+    padding: 'clamp(20px, 5vw, 40px)', 
     borderRadius: '24px', 
     textAlign: 'center', 
     maxWidth: '450px', 
+    width: '100%',
     boxShadow: '0 20px 40px rgba(0,0,0,0.4)', 
     border: '1px solid var(--border-color)' 
   },
@@ -79,7 +93,7 @@ const styles = {
     border: '2px dashed var(--accent)', 
     padding: '20px', 
     margin: '20px 0', 
-    fontSize: '32px', 
+    fontSize: 'clamp(24px, 6vw, 32px)', 
     fontWeight: 'bold', 
     color: 'var(--accent)', 
     borderRadius: '12px' 
@@ -148,8 +162,6 @@ function Complaint() {
   return (
     <div 
       style={styles.container}
-      onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
-      onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
     >
       <h1 style={styles.header}>Citizen Portal</h1>
       <p style={styles.subHeader}>Telangana State Grievance Redressal System</p>
@@ -167,15 +179,15 @@ function Complaint() {
             style={styles.input} required onFocus={(e) => e.target.style.borderColor = 'var(--accent)'} onBlur={(e) => e.target.style.borderColor = 'var(--border-color)'}/>
         </div>
 
-        <div style={{ display: 'flex', gap: '15px' }}>
-          <div style={{ ...styles.formGroup, flex: 1 }}>
+        <div style={styles.row}>
+          <div style={{ ...styles.formGroup, ...styles.column }}>
             <label style={styles.label}>District</label>
             <select name="zone" value={formData.zone} onChange={handleChange} style={styles.input} required>
               <option value="" style={{backgroundColor: 'var(--card-bg)'}}>Select District</option>
               {TS_DISTRICTS.map(d => <option key={d} value={d} style={{backgroundColor: 'var(--card-bg)'}}>{d}</option>)}
             </select>
           </div>
-          <div style={{ ...styles.formGroup, flex: 1 }}>
+          <div style={{ ...styles.formGroup, ...styles.column }}>
             <label style={styles.label}>Complaint Category</label>
             <select name="complaintType" value={formData.complaintType} onChange={handleChange} style={styles.input} required>
               <option value="" style={{backgroundColor: 'var(--card-bg)'}}>Select Problem</option>
@@ -184,12 +196,12 @@ function Complaint() {
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '15px' }}>
-          <div style={{ ...styles.formGroup, flex: 1 }}>
+        <div style={styles.row}>
+          <div style={{ ...styles.formGroup, ...styles.column }}>
             <label style={styles.label}>Phone Number</label>
             <input type="tel" name="phoneNumber" placeholder="98XXXXXXXX" value={formData.phoneNumber} onChange={handleChange} style={styles.input} required />
           </div>
-          <div style={{ ...styles.formGroup, flex: 1 }}>
+          <div style={{ ...styles.formGroup, ...styles.column }}>
             <label style={styles.label}>Email Address</label>
             <input type="email" name="emailAddress" placeholder="citizen@example.com" value={formData.emailAddress} onChange={handleChange} style={styles.input} required />
           </div>

@@ -6,7 +6,7 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: "15px 5%", // Changed to percentage for better scaling
+    padding: "15px 5%", 
     backgroundColor: "var(--nav-bg)",
     backdropFilter: "blur(15px)",
     color: "var(--text-main)",
@@ -15,7 +15,8 @@ const styles = {
     position: "sticky",
     top: 0,
     zIndex: 1000,
-    transition: "all 0.3s ease",
+    width: "100%",
+    boxSizing: "border-box", 
   },
   siteTitle: {
     fontSize: "24px",
@@ -24,7 +25,7 @@ const styles = {
     color: "var(--accent)",
     textTransform: "uppercase",
     letterSpacing: "1.5px",
-    zIndex: 1001, // Stay above mobile menu
+    zIndex: 1001,
   },
   linkList: {
     display: "flex",
@@ -32,7 +33,7 @@ const styles = {
     listStyle: "none",
     margin: 0,
     padding: 0,
-    transition: "all 0.4s ease-in-out",
+    transition: "right 0.4s ease-in-out",
   },
   listItem: {
     marginLeft: "25px",
@@ -67,26 +68,9 @@ const styles = {
     fontWeight: "600",
     border: "none",
     cursor: "pointer",
-    transition: "background-color 0.3s ease",
   },
-  toggleBtn: {
-    background: "none",
-    border: "1px solid var(--border-color)",
-    borderRadius: "10px",
-    width: "40px",
-    height: "40px",
-    cursor: "pointer",
-    color: "var(--accent)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "18px",
-    marginLeft: "20px",
-    transition: "all 0.3s ease",
-  },
-  // Added Hamburger Style
   hamburger: {
-    display: "none", // Hidden by default (desktop)
+    display: "none",
     flexDirection: "column",
     cursor: "pointer",
     gap: "5px",
@@ -104,7 +88,7 @@ const styles = {
 export default function Navbar({ toggleTheme, currentTheme }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false); // Mobile Menu State
+  const [isOpen, setIsOpen] = useState(false);
 
   const isAdminPage = location.pathname === "/Admin";
 
@@ -124,7 +108,7 @@ export default function Navbar({ toggleTheme, currentTheme }) {
               right: ${isOpen ? "0" : "-100%"};
               top: 0;
               height: 100vh;
-              width: 70%;
+              width: 75%;
               background-color: var(--nav-bg);
               flex-direction: column !important;
               justify-content: center !important;
@@ -133,6 +117,7 @@ export default function Navbar({ toggleTheme, currentTheme }) {
             }
             .nav-item {
               margin: 20px 0 !important;
+              margin-left: 0 !important;
             }
             .hamburger-icon {
               display: flex !important;
@@ -141,17 +126,11 @@ export default function Navbar({ toggleTheme, currentTheme }) {
         `}
       </style>
 
-      {/* Brand Identity */}
       <Link to="/" style={styles.siteTitle} onClick={() => setIsOpen(false)}>
         <span style={{ color: "var(--text-main)" }}>FIX</span>IT.
       </Link>
 
-      {/* Hamburger Icon */}
-      <div 
-        className="hamburger-icon" 
-        style={styles.hamburger} 
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <div className="hamburger-icon" style={styles.hamburger} onClick={() => setIsOpen(!isOpen)}>
         <div style={{...styles.line, transform: isOpen ? "rotate(45deg) translate(5px, 6px)" : "none"}}></div>
         <div style={{...styles.line, opacity: isOpen ? 0 : 1}}></div>
         <div style={{...styles.line, transform: isOpen ? "rotate(-45deg) translate(5px, -6px)" : "none"}}></div>
@@ -159,80 +138,29 @@ export default function Navbar({ toggleTheme, currentTheme }) {
       
       <ul className="nav-links" style={styles.linkList}>
         <li className="nav-item" style={styles.listItem}>
-          <NavLink 
-            to="/" 
-            onClick={() => setIsOpen(false)}
-            style={({ isActive }) => ({
-              ...styles.link,
-              color: isActive ? "var(--accent)" : "var(--text-muted)"
-            })}
-          >
-            Dashboard
-          </NavLink>
+          <NavLink to="/" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ ...styles.link, color: isActive ? "var(--accent)" : "var(--text-muted)" })}>Dashboard</NavLink>
         </li>
-        
         <li className="nav-item" style={styles.listItem}>
-          <NavLink 
-            to="/complaint" 
-            onClick={() => setIsOpen(false)}
-            style={({ isActive }) => ({
-              ...styles.link,
-              color: isActive ? "var(--accent)" : "var(--text-muted)"
-            })}
-          >
-            New Complaint
-          </NavLink>
+          <NavLink to="/complaint" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ ...styles.link, color: isActive ? "var(--accent)" : "var(--text-muted)" })}>New Complaint</NavLink>
         </li>
-
         <li className="nav-item" style={styles.listItem}>
-          <NavLink to="/track" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ ...styles.link, color: isActive ? "var(--accent)" : "var(--text-muted)" })}>
-            Track Ticket
-          </NavLink>
+          <NavLink to="/track" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ ...styles.link, color: isActive ? "var(--accent)" : "var(--text-muted)" })}>Track Ticket</NavLink>
         </li>
-
         <li className="nav-item" style={styles.listItem}>
-          <NavLink to="/StayAware" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ ...styles.link, color: isActive ? "var(--accent)" : "var(--text-muted)" })}>
-            Guidelines
-          </NavLink>
+          <NavLink to="/StayAware" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ ...styles.link, color: isActive ? "var(--accent)" : "var(--text-muted)" })}>Guidelines</NavLink>
         </li>
-
         <li className="nav-item" style={styles.listItem}>
-          <NavLink 
-            to="/about" 
-            onClick={() => setIsOpen(false)}
-            style={({ isActive }) => ({
-              ...styles.link,
-              color: isActive ? "var(--accent)" : "var(--text-muted)"
-            })}
-          >
-            About
-          </NavLink>
+          <NavLink to="/about" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ ...styles.link, color: isActive ? "var(--accent)" : "var(--text-muted)" })}>About</NavLink>
         </li>
-
         <li className="nav-item" style={styles.listItem}>
           {isAdminPage ? (
-            <button 
-              onClick={handleLogout} 
-              style={styles.logoutBtn}
-            >
-              Logout
-            </button>
+            <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
           ) : (
-            <NavLink 
-              to="/Login" 
-              onClick={() => setIsOpen(false)}
-              style={styles.adminBtn}
-            >
-              Admin
-            </NavLink>
+            <NavLink to="/Login" onClick={() => setIsOpen(false)} style={styles.adminBtn}>Admin</NavLink>
           )}
         </li>
-
         <li className="nav-item" style={styles.listItem}>
-          <button 
-            onClick={toggleTheme} 
-            style={styles.toggleBtn}
-          >
+          <button onClick={toggleTheme} style={{background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', fontSize: '18px'}}>
             <i className={currentTheme === 'light' ? "fas fa-moon" : "fas fa-sun"}></i>
           </button>
         </li>
