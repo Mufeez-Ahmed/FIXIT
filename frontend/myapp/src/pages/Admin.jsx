@@ -82,7 +82,7 @@ function Admin() {
     // 1. Fetch all complaints from Backend
     const fetchComplaints = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/complaints/all');
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/complaints/all`);
             setComplaints(response.data);
             calculateStats(response.data);
         } catch (error) {
@@ -98,7 +98,7 @@ function Admin() {
     const updateStatusOnServer = async (id, newStatus) => {
         try {
             // This sends { "status": "accepted" } to match the Backend Map
-            await axios.put(`http://localhost:8080/api/complaints/update-status/${id}`, {
+            await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/complaints/update-status/${id}`, {
                 status: newStatus
             });
             

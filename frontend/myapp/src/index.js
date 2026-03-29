@@ -9,8 +9,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"))
 
 root.render(
   <React.StrictMode>
-    {/* Use your v3 Site Key here */}
-    <GoogleReCaptchaProvider reCaptchaKey="6Lcdm5wsAAAAAHZZA6GaCOQgXKoo4DXk4GRvdOyq">
+    
+    <GoogleReCaptchaProvider reCaptchaKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
