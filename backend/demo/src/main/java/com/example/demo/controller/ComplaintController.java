@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/complaints")
-@CrossOrigin(origins = "http://localhost:3000") // Allows React to talk to Spring Boot
+@CrossOrigin(origins = "*") // Allows React to talk to Spring Boot
 public class ComplaintController {
 
     @Autowired
