@@ -100,7 +100,41 @@ const styles = {
   }
 };
 
-const TS_DISTRICTS = ["Hyderabad", "Rangareddy", "Medchal-Malkajgiri", "Warangal", "Nizamabad", "Khammam", "Karimnagar","Peddapalli", "Mahabubnagar", "Sangareddy", "Nalgonda", "Suryapet"];
+const TS_DISTRICTS = [
+  "Adilabad",
+  "Bhadradri Kothagudem",
+  "Hanamkonda",
+  "Hyderabad",
+  "Jagtial",
+  "Jangaon",
+  "Jayashankar Bhupalpally",
+  "Jogulamba Gadwal",
+  "Kamareddy",
+  "Karimnagar",
+  "Khammam",
+  "Kumuram Bheem Asifabad",
+  "Mahabubabad",
+  "Mahabubnagar",
+  "Mancherial",
+  "Medak",
+  "Medchal-Malkajgiri",
+  "Mulugu",
+  "Nagarkurnool",
+  "Nalgonda",
+  "Narayanpet",
+  "Nirmal",
+  "Nizamabad",
+  "Peddapalli",
+  "Rajanna Sircilla",
+  "Rangareddy",
+  "Sangareddy",
+  "Siddipet",
+  "Suryapet",
+  "Vikarabad",
+  "Wanaparthy",
+  "Warangal",
+  "Yadadri Bhuvanagiri"
+];
 
 const CATEGORIES = [
   { val: "Potholes", label: "Road Damage / Potholes" },
