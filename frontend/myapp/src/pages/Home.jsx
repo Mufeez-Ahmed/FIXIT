@@ -202,7 +202,7 @@ function Home() {
                     e.target.style.boxShadow = '0 15px 30px rgba(16, 185, 129, 0.3)';
                 }}
             >
-                Submit New Grievance
+                Submit New Complaint
             </Link>
             
             <div style={{maxWidth: '100%', width: '300px', margin: '40px auto 0'}}>
