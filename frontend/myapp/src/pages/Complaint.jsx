@@ -198,7 +198,7 @@ function Complaint() {
       style={styles.container}
     >
       <h1 style={styles.header}>Citizen Portal</h1>
-      <p style={styles.subHeader}>Telangana State Grievance Redressal System</p>
+      <p style={styles.subHeader}>Telangana State Complaint Resolution System</p>
       
       <form onSubmit={handleSubmit}>
         <div style={styles.formGroup}>
@@ -242,7 +242,7 @@ function Complaint() {
         </div>
 
         <button type="submit" style={{ ...styles.button, opacity: isSubmitting ? 0.7 : 1 }} disabled={isSubmitting}>
-          {isSubmitting ? 'Verifying & Submitting...' : 'Submit Grievance'}
+          {isSubmitting ? 'Verifying & Submitting...' : 'Submit Complaint'}
         </button>
       </form>
 
